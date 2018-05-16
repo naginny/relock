@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Relock - Order invoice</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/bootstrap-datepicker.min.css') }}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <style>
+        .container {
+            max-width: 960px;
+        }
+
+        .border-top { border-top: 1px solid #e5e5e5; }
+        .border-bottom { border-bottom: 1px solid #e5e5e5; }
+        .border-top-gray { border-top-color: #adb5bd; }
+
+        .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05); }
+
+        .lh-condensed { line-height: 1.25; }
+
+    </style>
+</head>
+
+<body class="bg-light">
+<div class="container">
+    <div class="py-5 text-center">
+        <h2>Your order invoice</h2>
+        <br><br>
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th><h4>Service</h4></th>
+                <th><h4>Description</h4></th>
+                <th><h4>Rate/Price</h4></th>
+                <th><h4>Sub Total</h4></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set runningTotal = 0 %}
+            {% for product in products %}
+                {% set runningTotal = runningTotal + product.totalNetPrice %}
+                <tr>
+                    <td>{{ product.type }}</td>
+                    <td>{{ product.manufacturer ~ ', ' ~ product.material ~ ' (code: ' ~ product.vendorCode ~ ')' }}</td>
+                    <td class="text-right">{{ product.totalNetPrice ~ '€' }}</td>
+                    <td class="text-right">{{ runningTotal ~ '€' }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <div class="row text-right">
+            <div class="col-xs-2 col-xs-offset-8">
+                <p>
+                    <strong>
+                        Sub Total : <br>
+                        TAX : <br>
+                        Total : <br>
+                    </strong>
+                </p>
+            </div>
+            <div class="col-xs-2">
+                <strong>
+                    {{ order.totalNetPrice ~ '€' }} <br>
+                    {{ products[0].tax * 100 ~ '%' }} <br>
+                    {{ order.totalPrice ~ '€' }} <br>
+                </strong>
+            </div>
+        </div>
+    </div>
+
+    <footer class="my-5 pt-5 text-muted text-center text-small">
+        <p class="mb-1">&copy; 2017-2018 ReLock</p>
+    </footer>
+</div>
+
+<!-- Bootstrap core JavaScript -->
+<script src="{{ asset('js/jquery-3.3.1.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+</body>
+</html>

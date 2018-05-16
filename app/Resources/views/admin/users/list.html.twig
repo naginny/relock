@@ -1,0 +1,68 @@
+{% extends "admin/basic.html.twig" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    {% if users is empty %}
+                        <div class="card-content">
+                            <div class="alert alert-info">
+                                No users present
+                            </div>
+                        </div>
+                    {% else %}
+                        <div class="table-responsive">
+                            <table class="table table-hover ">
+                                <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Username</th>
+                                    <th>Email</th>
+                                    <th>Enabled</th>
+                                    <th>Last login</th>
+                                    <th>Roles</th>
+                                    <th>Actions</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for index, user in users %}
+                                    <tr>
+                                        <th scope="row">{{ index+1 }}</th>
+                                        <td>{{ user.username }}</td>
+                                        <td>{{ user.email }}</td>
+                                        <td>{{ user.enabled ? 'yes' : 'no' }}</td>
+                                        <td>{{ user.lastLogin ? user.lastLogin|date('Y-m-d H:i:s') : '---' }}</td>
+                                        <td>{{ user.roles|json_encode }}</td>
+                                        <td>
+                                            <a href="{{ path('admin_users_edit', { employeeId: user.id }) }}">
+                                                <button type="button" class="btn btn-primary m-b-10 m-l-5">edit</button>
+                                            </a>
+                                            {#<a href="{{ path('admin_customers_revoke', { customerId: customer.id }) }}">#}
+                                                {#<button type="button" class="btn btn-warning m-b-10 m-l-5">revoke</button>#}
+                                            {#</a>#}
+                                            {#<a href="{{ path('admin_customers_anonymize', { customerId: customer.id }) }}">#}
+                                                {#<button type="button" class="btn btn-danger m-b-10 m-l-5">anonymize</button>#}
+                                            {#</a>#}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body text-right">
+                    <a href="{{ path('admin_users_add') }}">
+                        <button type="button" class="btn btn-primary m-b-10 m-l-5">new user</button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

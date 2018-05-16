@@ -1,0 +1,1 @@
+* * * * * /vagrant/app/console app:clear_old_clients_personal_info_command

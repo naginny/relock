@@ -1,0 +1,94 @@
+imports:
+    - { resource: parameters.yml }
+    - { resource: security.yml }
+    - { resource: services.yml }
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
+parameters:
+    locale: en
+
+framework:
+    #esi: ~
+    translator: { fallbacks: ['%locale%'] }
+    secret: '%secret%'
+    router:
+        resource: '%kernel.root_dir%/config/routing.yml'
+        strict_requirements: ~
+    form: ~
+    csrf_protection: ~
+    validation: { enable_annotations: true, enabled: true }
+    #serializer: { enable_annotations: true }
+    templating:
+        engines: ['twig']
+    default_locale: '%locale%'
+    trusted_hosts: ~
+    trusted_proxies: ~
+    session:
+        # handler_id set to null will use default session handler from php.ini
+        handler_id: ~
+    fragments: ~
+    http_method_override: true
+
+# Twig Configuration
+twig:
+    debug: '%kernel.debug%'
+    strict_variables: '%kernel.debug%'
+    globals:
+        navigation:
+          - { role: 'ROLE_INSTALLER', title: 'Processing' }
+          - { role: 'ROLE_SALES_AGENT', path: 'admin_new_orders', code: 'newOrders', title: 'New orders', icon: 'fa-plus-square'}
+          - { role: 'ROLE_INSTALLER', path: 'admin_awaiting_measurements', code: 'awaitingMeasurement', title: 'Awaiting measurement', icon: 'fa-calculator'}
+          - { role: 'ROLE_SALES_AGENT', path: 'admin_awaiting_pricing', code: 'awaitingPricing', title: 'Awaiting pricing', icon: 'fa-braille'}
+          - { role: 'ROLE_SALES_AGENT', path: 'admin_awaiting_prepayment', code: 'awaitingPrepayment', title: 'Awaiting pre-payment', icon: 'fa-credit-card'}
+          - { role: 'ROLE_SALES_AGENT', path: 'admin_awaiting_delivery', code: 'awaitingDelivery', title: 'Awaiting delivery', icon: 'fa-truck'}
+          - { role: 'ROLE_INSTALLER', path: 'admin_awaiting_installation', code: 'awaitingInstallation', title: 'Awaiting installation', icon: 'fa-trophy'}
+          - { role: 'ROLE_SALES_AGENT', path: 'admin_finished', code: 'finished', title: 'Finished', icon: 'fa-check'}
+          - { role: 'ROLE_ADMIN', path: 'admin_rejected', code: 'rejected', title: 'Rejected', icon: 'fa-times'}
+          - { role: 'ROLE_ADMIN', title: 'Customer management' }
+          - { role: 'ROLE_ADMIN', path: 'admin_customers', code: 'customers', title: 'Customers', icon: 'fa-address-book'}
+          - { role: 'ROLE_SUPER_ADMIN', title: 'Access rights' }
+          - { role: 'ROLE_SUPER_ADMIN', path: 'admin_users', code: 'users', title: 'Users', icon: 'fa-user'}
+        current: 'default'
+
+# Doctrine Configuration
+doctrine:
+    dbal:
+        driver: pdo_mysql
+        host: '%database_host%'
+        port: '%database_port%'
+        dbname: '%database_name%'
+        user: '%database_user%'
+        password: '%database_password%'
+        charset: UTF8
+        # if using pdo_sqlite as your database driver:
+        #   1. add the path in parameters.yml
+        #     e.g. database_path: '%kernel.root_dir%/data/data.db3'
+        #   2. Uncomment database_path in parameters.yml.dist
+        #   3. Uncomment next line:
+        #path: '%database_path%'
+
+    orm:
+        auto_generate_proxy_classes: '%kernel.debug%'
+        naming_strategy: doctrine.orm.naming_strategy.underscore
+        auto_mapping: true
+# Swiftmailer Configuration
+swiftmailer:
+    transport: '%mailer_transport%'
+    host: '%mailer_host%'
+    username: '%mailer_user%'
+    password: '%mailer_password%'
+    spool: { type: memory }
+
+doctrine_migrations:
+    dir_name: "%kernel.root_dir%/DoctrineMigrations"
+    namespace: Application\Migrations
+    table_name: migration_versions
+    name: Application Migrations
+    organize_migrations: false # Version >= 1.2, possible values are: "BY_YEAR", "BY_YEAR_AND_MONTH", false
+    custom_template: ~ # Version >= 1.2, path to your custom migrations template
+
+fos_user:
+    db_driver: orm # other valid values are 'mongodb', 'couchdb' and 'propel'
+    firewall_name: main
+    user_class: AppBundle\Entity\Employee

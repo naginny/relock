@@ -1,0 +1,10 @@
+.vagrant
+.idea
+vendor
+app/cache/*
+!app/cache/.gitkeep
+app/logs/*
+!app/logs/.gitkeep
+!var/.gitkeep
+web/uploads
+/nbproject/private/

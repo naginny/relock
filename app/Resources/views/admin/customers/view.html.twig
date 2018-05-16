@@ -1,0 +1,382 @@
+{% extends "admin/basic.html.twig" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-title">
+                <h4>Client information</h4>
+                <a target="_blank" href="{{ path('admin_customers_download', {customerId: customer.id}) }}" class="pull-right">download</a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover ">
+                        <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>id</td>
+                            <td>{{ customer.id }}</td>
+                        </tr>
+                        <tr>
+                            <td>Created at</td>
+                            <td>{{ customer.createdAt|date('Y-m-d H:i:s') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Name</td>
+                            <td>{{ customer.name }}</td>
+                        </tr>
+                        <tr>
+                            <td>Surname</td>
+                            <td>{{ customer.surname }}</td>
+                        </tr>
+                        <tr>
+                            <td>Email</td>
+                            <td>{{ customer.email }}</td>
+                        </tr>
+                        <tr>
+                            <td>Phone</td>
+                            <td>{{ customer.phone }}</td>
+                        </tr>
+                        <tr>
+                            <td>Permission To Use PersonalInfo</td>
+                            <td>{{ customer.permissionToUsePersonalInfo ? 'yes' : 'no' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Permission Received At</td>
+                            <td>{{ customer.permissionReceivedAt|date('Y-m-d H:i:s') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Permission Denied At</td>
+                            <td>{{ customer.permissionDeniedAt? customer.permissionDeniedAt|date('Y-m-d H:i:s') : '---' }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">
+            <div class="card-title">
+                <h4>Client addresses</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    {% for address in customer.addresses %}
+                    <table class="table table-hover ">
+                        <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>id</td>
+                            <td>{{ address.id }}</td>
+                        </tr>
+                        <tr>
+                            <td>City</td>
+                            <td>{{ address.city }}</td>
+                        </tr>
+                        <tr>
+                            <td>Street Address</td>
+                            <td>{{ address.streetAddress }}</td>
+                        </tr>
+                        <tr>
+                            <td>Floor</td>
+                            <td>{{ address.floor }}</td>
+                        </tr>
+                        <tr>
+                            <td>Notes</td>
+                            <td>{{ address.notes }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-title">
+                <h4>Client orders</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    {% for order in customer.orders %}
+                    <table class="table table-hover ">
+                        <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Id</td>
+                            <td>{{ order.id }}</td>
+                        </tr>
+                        <tr>
+                            <td>Created At</td>
+                            <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '---' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Closed At</td>
+                            <td>{{ order.closedAt ? order.closedAt|date('Y-m-d H:i:s') : '---' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Requested Measurement At</td>
+                            <td>{{ order.requestedMeasurementAt ? order.requestedMeasurementAt|date('Y-m-d H:i:s') : '---' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Requested Installation At</td>
+                            <td>{{ order.requestedInstallationAt ? order.requestedInstallationAt|date('Y-m-d H:i:s') : '---' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Requested Door Amount</td>
+                            <td>{{ order.requestedDoorAmount }}</td>
+                        </tr>
+                        <tr>
+                            <td>Requested Window Amount</td>
+                            <td>{{ order.requestedWindowAmount }}</td>
+                        </tr>
+                        <tr>
+                            <td>Requested Jalousie Amount</td>
+                            <td>{{ order.requestedJalousieAmount }}</td>
+                        </tr>
+                        <tr>
+                            <td>Requested Gate Amount</td>
+                            <td>{{ order.requestedGateAmount }}</td>
+                        </tr>
+                        <tr>
+                            <td>Status</td>
+                            <td>{{ order.status.title }}</td>
+                        </tr>
+                        <tr>
+                            <td>ProductsAmount</td>
+                            <td>{{ order.productsAmount }}</td>
+                        </tr>
+                        <tr>
+                            <td>Address</td>
+                            <td>{{ order.address }}</td>
+                        </tr>
+                        <tr>
+                            <td>Rejected At</td>
+                            <td>{{ order.rejectedAt ? order.rejectedAt|date('Y-m-d H:i:s') : '---' }}</td>
+                        </tr>
+                        <tr>
+                            <td>RejectedReason</td>
+                            <td>{{ order.rejectedReason }}</td>
+                        </tr>
+                        <tr>
+                            <td>Notes</td>
+                            <td>{{ order.notes }}</td>
+                        </tr>
+                        <tr>
+                            <td>Measurements Set</td>
+                            <td>{{ order.measurementsSet ? 'yes' : 'no' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Prepayment Amount</td>
+                            <td>{{ order.prepaymentAmount }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Net Price</td>
+                            <td>{{ order.totalNetPrice }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Price</td>
+                            <td>{{ order.totalPrice }}</td>
+                        </tr>
+                        <tr>
+                            <td>Total Markup</td>
+                            <td>{{ order.totalMarkup }}</td>
+                        </tr>
+                        <tr>
+                            <td>InvoiceId</td>
+                            <td>{{ order.invoiceId }}</td>
+                        </tr>
+                        <tr>
+                            <td>Delivery At</td>
+                            <td>{{ order.deliveryAt ? order.deliveryAt|date('Y-m-d H:i:s') : '---' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Installation At</td>
+                            <td>{{ order.installationAt ? order.installationAt|date('Y-m-d H:i:s') : '---' }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-title">
+                <h4>Client products</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+
+                    {% for product in customer.products %}
+                    <table class="table table-hover ">
+                        <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Id</td>
+                            <td>{{ product.id }}</td>
+                        </tr>
+                        <tr>
+                            <td>Measurement At</td>
+                            <td>{{ product.measurementAt ? product.measurementAt|date('Y-m-d H:i:s') : '---'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Installation At</td>
+                            <td>{{ product.installationAt ? product.installationAt|date('Y-m-d H:i:s') : '---'}}</td>
+                        </tr>
+                        <tr>
+                            <td>Material</td>
+                            <td>{{ product.material }}</td>
+                        </tr>
+                        <tr>
+                            <td>Manufacturer</td>
+                            <td>{{ product.manufacturer }}</td>
+                        </tr>
+                        <tr>
+                            <td>Price</td>
+                            <td>{{ product.price }}</td>
+                        </tr>
+                        <tr>
+                            <td>VendorCode</td>
+                            <td>{{ product.vendorCode }}</td>
+                        </tr>
+                        <tr>
+                            <td>Notes</td>
+                            <td>{{ product.notes }}</td>
+                        </tr>
+                        <tr>
+                            <td>Sketch</td>
+                            <td>{{ product.sketch }}</td>
+                        </tr>
+                        <tr>
+                            <td>Type</td>
+                            <td>{{ product.type }}</td>
+                        </tr>
+                        <tr>
+                            <td>Address</td>
+                            <td>{{ product.address }}</td>
+                        </tr>
+                        <tr>
+                            <td>Width</td>
+                            <td>{{ product.width }}</td>
+                        </tr>
+                        <tr>
+                            <td>Height</td>
+                            <td>{{ product.height }}</td>
+                        </tr>
+                        <tr>
+                            <td>MeasurementsSet</td>
+                            <td>{{ product.measurementsSet ? 'yes' : 'no' }}</td>
+                        </tr>
+                        <tr>
+                            <td>Markup</td>
+                            <td>{{ product.markup }}</td>
+                        </tr>
+                        <tr>
+                            <td>InstallationPrice</td>
+                            <td>{{ product.installationPrice }}</td>
+                        </tr>
+                        <tr>
+                            <td>DeliveryPrice</td>
+                            <td>{{ product.deliveryPrice }}</td>
+                        </tr>
+                        <tr>
+                            <td>AdditionalMarkup</td>
+                            <td>{{ product.additionalMarkup }}</td>
+                        </tr>
+                        <tr>
+                            <td>Tax</td>
+                            <td>{{ product.tax }}</td>
+                        </tr>
+                        <tr>
+                            <td>TotalPrice</td>
+                            <td>{{ product.totalPrice }}</td>
+                        </tr>
+                        <tr>
+                            <td>TotalNetPrice</td>
+                            <td>{{ product.totalNetPrice }}</td>
+                        </tr>
+                        <tr>
+                            <td>PrepaymentAmount</td>
+                            <td>{{ product.prepaymentAmount }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-title">
+                <h4>Client logs</h4>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    {% for log in customer.logs %}
+                    <table class="table table-hover ">
+                        <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>Id</td>
+                            <td>{{ log.id }}</td>
+                        </tr>
+                        <tr>
+                            <td>Action</td>
+                            <td>{{ log.action }}</td>
+                        </tr>
+                        <tr>
+                            <td>Message</td>
+                            <td>{{ log.message }}</td>
+                        </tr>
+                        <tr>
+                            <td>Created At</td>
+                            <td>{{ log.createdAt|date('Y-m-d H:i:s') }}</td>
+                        </tr>
+                        <tr>
+                            <td>Customer</td>
+                            <td>{{ log.customer.email }}</td>
+                        </tr>
+                        <tr>
+                            <td>Employee</td>
+                            <td>{{ log.employee ? log.employee.email : ''}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

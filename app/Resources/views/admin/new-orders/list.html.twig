@@ -1,0 +1,74 @@
+{% extends "admin/basic.html.twig" %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                {% if orders is empty %}
+                    <div class="card-content">
+                        <div class="alert alert-info">
+                            No new orders
+                        </div>
+                    </div>
+                {% else %}
+                    <div class="table-responsive">
+                        <table class="table table-hover ">
+                            <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Name</th>
+                                <th>Submitted</th>
+                                <th>Requested measurement date</th>
+                                <th>City</th>
+                                <th>Phone number</th>
+                                <th>Email</th>
+                                <th>Products</th>
+                                <th>Doors</th>
+                                <th>Windows</th>
+                                <th>Jalousie</th>
+                                <th>Gates</th>
+                                <th>Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for index, order in orders %}
+                            <tr>
+                                <th scope="row">{{ index+1 }}</th>
+                                <td>{{ order.customer.name }}</td>
+                                <td>{{ order.createdAt|date('Y-m-d H:i:s') }}</td>
+                                <td>{{ order.requestedMeasurementAt|date('Y-m-d H:i:s') }}</td>
+                                <td>{{ order.address.city }}</td>
+                                <td>{{ order.customer.phone }}</td>
+                                <td>{{ order.customer.email }}</td>
+                                <td>{{ order.productsAmount }}</td>
+                                <td>{{ order.requestedDoorAmount ?: '---' }}</td>
+                                <td>{{ order.requestedWindowAmount ?: '---' }}</td>
+                                <td>{{ order.requestedJalousieAmount ?: '---' }}</td>
+                                <td>{{ order.requestedGateAmount ?: '---' }}</td>
+                                <td>
+                                    <a href="{{ path('admin_new_order_proceed', { orderId: order.id }) }}">
+                                        <button type="button" class="btn btn-primary m-b-10 m-l-5">await measurement</button>
+                                    </a>
+                                    <a href="{{ path('admin_new_order_products', { orderId: order.id }) }}">
+                                        <button type="button" class="btn btn-info m-b-10 m-l-5">products</button>
+                                    </a>
+                                    <a href="{{ path('admin_new_order_addresses', { orderId: order.id }) }}">
+                                        <button type="button" class="btn btn-success m-b-10 m-l-5">addresses</button>
+                                    </a>
+                                    <a href="{{ path('admin_reject', { orderId: order.id }) }}">
+                                        <button type="button" class="btn btn-danger m-b-10 m-l-5">reject</button>
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

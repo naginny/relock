@@ -1,0 +1,41 @@
+security:
+    encoders:
+        FOS\UserBundle\Model\UserInterface: bcrypt
+
+    role_hierarchy:
+        ROLE_INSTALLER:   []
+        ROLE_SALES_AGENT: [ROLE_INSTALLER]
+        ROLE_ADMIN:       [ROLE_SALES_AGENT]
+        ROLE_SUPER_ADMIN: [ROLE_ADMIN]
+
+    providers:
+        fos_userbundle:
+            id: fos_user.user_provider.username
+
+    firewalls:
+        main:
+            pattern: ^/
+            form_login:
+                default_target_path: admin_homepage
+                provider: fos_userbundle
+                csrf_provider: security.csrf.token_manager # Use form.csrf_provider instead for Symfony <2.4default_target_path:            /some-page/on/our-website
+
+            logout:       true
+            anonymous:    true
+
+    access_control:
+        # user actions
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+
+        # processes
+        - { path: ^/admin/new-orders, role: ROLE_SALES_AGENT }
+        - { path: ^/admin/awaiting-pricing, role: ROLE_SALES_AGENT }
+        - { path: ^/admin/awaiting-prepayment, role: ROLE_SALES_AGENT }
+        - { path: ^/admin/awaiting-delivery, role: ROLE_SALES_AGENT }
+        - { path: ^/admin/finished, role: ROLE_SALES_AGENT }
+        - { path: ^/admin/rejected, role: ROLE_ADMIN }
+        - { path: ^/admin/customers, role: ROLE_ADMIN }
+        - { path: ^/admin/users, role: ROLE_SUPER_ADMIN }
+        - { path: ^/admin, role: ROLE_INSTALLER }
