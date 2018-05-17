@@ -323,6 +323,8 @@ class NewOrdersController extends Controller
      */
     private function addressProcessForm(CustomerAddress $address, CustomerOrder $order, Request $request, string $success, string $title)
     {
+        $address->setCustomer($order->getCustomer());
+
         /** @var FormInterface $form */
         $form = $this->createFormBuilder($address)
             ->add('city', ChoiceType::class, array(
