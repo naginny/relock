@@ -52,9 +52,11 @@
                                     <a href="{{ path('admin_awaiting_pricing_proceed', { orderId: order.id }) }}">
                                         <button type="button" class="btn btn-primary m-b-10 m-l-5">await prepayment</button>
                                     </a>
+                                    {% if not order.invoiceSent %}
                                     <a href="{{ path('admin_awaiting_pricing_invoice_send', { orderId: order.id }) }}">
                                         <button type="button" class="btn btn-warning m-b-10 m-l-5">invoice sent</button>
                                     </a>
+                                    {%  endif %}
                                     <a href="{{ path('admin_awaiting_pricing_products', { orderId: order.id }) }}">
                                         <button type="button" class="btn btn-info m-b-10 m-l-5">products</button>
                                     </a>

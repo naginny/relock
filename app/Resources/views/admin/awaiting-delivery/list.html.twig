@@ -50,9 +50,11 @@
                                     <a href="{{ path('admin_awaiting_delivery_proceed', { orderId: order.id }) }}">
                                         <button type="button" class="btn btn-primary m-b-10 m-l-5">await installation</button>
                                     </a>
+                                    {% if not order.fullPaymentReceived %}
                                     <a href="{{ path('admin_awaiting_delivery_piad_full', { orderId: order.id }) }}">
                                         <button type="button" class="btn btn-warning m-b-10 m-l-5">fully paid</button>
                                     </a>
+                                    {%  endif %}
                                     <a href="{{ path('admin_awaiting_delivery_edit', { orderId: order.id }) }}">
                                         <button type="button" class="btn btn-success m-b-10 m-l-5">edit</button>
                                     </a>
